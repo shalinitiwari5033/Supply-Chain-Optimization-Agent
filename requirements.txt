@@ -1,0 +1,6 @@
+Pandas: 3.0.6
+NumPy: 2.5.3
+Scikit-learn: 1.9.1
+XGBoost: 3.4.1
+SciPy: 1.18.1
+Streamlit: 1.64.0

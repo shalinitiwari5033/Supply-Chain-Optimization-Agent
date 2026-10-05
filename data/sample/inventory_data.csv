@@ -1,0 +1,9 @@
+product_id,product_name,current_stock,lead_time_days,reorder_level,holding_cost,ordering_cost,warehouse_id
+P001,Laptop,200,7,96,120.33,481.8,WH02
+P002,Mouse,96,5,77,29.01,864.63,WH03
+P003,Keyboard,235,6,40,110.19,825.6,WH03
+P004,Monitor,129,10,26,128.27,430.76,WH01
+P005,Headphones,76,5,45,81.4,491.58,WH02
+P006,Webcam,177,8,23,71.0,902.53,WH01
+P007,Printer,169,12,22,74.03,694.48,WH01
+P008,Router,224,7,59,125.43,300.42,WH02
