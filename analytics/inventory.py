@@ -140,6 +140,7 @@ def detect_stockout_risk(
     return "HEALTHY"
 
 
+
 def optimize_inventory(sales_df, inventory_df):
     """
     Generate inventory optimization metrics
@@ -149,65 +150,66 @@ def optimize_inventory(sales_df, inventory_df):
     average_demand = calculate_average_daily_demand(sales_df)
     demand_std = calculate_demand_std(sales_df)
 
-    result = inventory_df.copy()
+    # Remove previously calculated columns to prevent
+    # duplicate column names during merges.
+    result = inventory_df.drop(
+        columns=["average_daily_demand", "demand_std"],
+        errors="ignore",
+    ).copy()
 
     result = result.merge(
         average_demand,
         on="product_id",
-        how="left"
+        how="left",
     )
 
     result = result.merge(
         demand_std,
         on="product_id",
-        how="left"
+        how="left",
     )
 
     result["average_daily_demand"] = (
         result["average_daily_demand"].fillna(0)
     )
 
-    result["demand_std"] = (
-        result["demand_std"].fillna(0)
-    )
+    result["demand_std"] = result["demand_std"].fillna(0)
 
     result["safety_stock"] = result.apply(
         lambda row: calculate_safety_stock(
             row["average_daily_demand"],
             row["demand_std"],
-            row["lead_time_days"]
+            row["lead_time_days"],
         ),
-        axis=1
+        axis=1,
     )
 
     result["calculated_reorder_point"] = result.apply(
         lambda row: calculate_reorder_point(
             row["average_daily_demand"],
             row["lead_time_days"],
-            row["safety_stock"]
+            row["safety_stock"],
         ),
-        axis=1
+        axis=1,
     )
 
-    result["annual_demand"] = (
-        result["average_daily_demand"] * 365
-    )
+    result["annual_demand"] = result["average_daily_demand"] * 365
 
     result["eoq"] = result.apply(
         lambda row: calculate_eoq(
             row["annual_demand"],
             row["ordering_cost"],
-            row["holding_cost"]
+            row["holding_cost"],
         ),
-        axis=1
+        axis=1,
     )
 
     result["inventory_status"] = result.apply(
         lambda row: detect_stockout_risk(
             row["current_stock"],
-            row["calculated_reorder_point"]
+            row["calculated_reorder_point"],
         ),
-        axis=1
+        axis=1,
     )
 
     result["recommended_order_quantity"] = np.where(
@@ -215,7 +217,7 @@ def optimize_inventory(sales_df, inventory_df):
             ["STOCKOUT", "REORDER_REQUIRED"]
         ),
         np.ceil(result["eoq"]),
-        0
+        0,
     )
 
     return result

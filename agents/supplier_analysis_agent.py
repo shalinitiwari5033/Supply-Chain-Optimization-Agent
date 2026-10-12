@@ -4,6 +4,17 @@ from analytics.risk_analysis import analyze_risk
 
 def supplier_analysis_agent(state):
     """Analyze supplier performance and supply-chain risk."""
+    if state.get("inventory_result") is None:
+        errors = list(state.get("errors", []))
+        errors.append(
+            "Supplier analysis skipped: inventory optimization "
+            "did not produce inventory_result."
+        )
+        return {
+            "status": "Supplier analysis failed",
+            "errors": errors,
+        }
+
 
     try:
         supplier_result = rank_suppliers(

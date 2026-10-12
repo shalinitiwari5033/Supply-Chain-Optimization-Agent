@@ -25,3 +25,7 @@ class SupplyChainState(TypedDict, total=False):
     # Workflow information
     status: str
     errors: list
+
+# for gemini ai 
+    ai_explanation: str
+    explanation_source: str

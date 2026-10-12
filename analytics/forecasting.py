@@ -118,31 +118,20 @@ def naive_forecast(
 # Forecast Evaluation
 # =========================================================
 
-def evaluate_forecast(
-    actual,
-    predicted,
-):
+def evaluate_forecast(actual, predicted):
+    from sklearn.metrics import mean_absolute_error, mean_squared_error
+    import numpy as np
     """
-    Calculate MAE and RMSE.
+    Evaluate forecast predictions using MAE and RMSE.
     """
 
-    mae = mean_absolute_error(
-        actual,
-        predicted,
-    )
-
-    rmse = np.sqrt(
-        mean_squared_error(
-            actual,
-            predicted,
-        )
-    )
+    mae = mean_absolute_error(actual, predicted)
+    rmse = np.sqrt(mean_squared_error(actual, predicted))
 
     return {
         "MAE": float(mae),
         "RMSE": float(rmse),
     }
-
 
 # =========================================================
 # Feature Engineering

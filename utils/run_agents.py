@@ -47,6 +47,13 @@ def main():
 
     print("\nRECOMMENDATIONS")
     print("-" * 60)
+    print("\nAI DECISION EXPLANATION")
+    print("-" * 60)
+    print(result.get("ai_explanation", "No explanation available"))
+
+    print("\nEXPLANATION SOURCE")
+    print("-" * 60)
+    print(result.get("explanation_source", "Unknown"))
 
     for recommendation in result.get("recommendations", []):
         print(

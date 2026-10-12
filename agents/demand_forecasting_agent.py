@@ -44,8 +44,8 @@ def demand_forecasting_agent(state):
         forecast_result = {
             "product_id": product_id,
             "model": "XGBoost",
-            "mae": metrics["mae"],
-            "rmse": metrics["rmse"],
+            "mae": metrics["MAE"],
+            "rmse": metrics["RMSE"],
             "test_predictions": predictions,
         }
 

@@ -87,8 +87,8 @@ def main():
 
     elif page == "AI Recommendations":
 
-        from frontend.pages.recommendations import show
-        show()
+        from frontend.pages.recommendations import generate_ai_explanation
+        generate_ai_explanation()
 
     elif page == "Data Management":
 

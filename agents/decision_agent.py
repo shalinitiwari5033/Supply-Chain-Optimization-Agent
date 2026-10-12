@@ -1,3 +1,4 @@
+from agents.llm_service import generate_ai_explanation
 def decision_agent(state):
     """
     Generate explainable supply-chain recommendations.
@@ -65,7 +66,32 @@ def decision_agent(state):
             "reason": "Current inventory and risk indicators are within acceptable levels.",
         })
 
+    
+    forecast_result = state.get("forecast_result")
+    risk_df = state.get("risk_result")
+
+    ai_explanation = generate_ai_explanation(
+         recommendations=recommendations,
+         forecast_result=state.get("forecast_result"),
+         risk_result=state.get("risk_result"),
+)
+
+
+    if ai_explanation:
+        explanation_source = "LLM"
+    else:
+        explanation_source = "Rule-based fallback"
+
+        ai_explanation = (
+            "AI explanation is unavailable. "
+            "Use the structured recommendations below. "
+            "They were generated from the project's analytics rules."
+        )
+
     return {
         "recommendations": recommendations,
+        "ai_explanation": ai_explanation,
+        "explanation_source": explanation_source,
         "status": "Decision analysis completed",
     }
+
